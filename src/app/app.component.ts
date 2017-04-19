@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { WpService } from '../app/services/wp.service';
+import { Post } from '../app/models/Post';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+
+  private posts:Post[];
+  
+  constructor(private _wp: WpService) { }
+
+  ngOnInit() {
+    this._wp.getPosts().subscribe(posts=>{
+      this.posts = posts;
+      console.log(posts);
+    });
+  }
+
+  delete(i){
+    this.posts.splice(i,1);
+  }
 }
